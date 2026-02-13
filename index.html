@@ -175,7 +175,14 @@
             });
         };
 
-
+        // ←←← NUEVA FUNCIÓN (agregar aquí)
+        const getImageDimensions = (base64) => {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => resolve({ width: img.width, height: img.height });
+                img.src = base64;
+            });
+        };
 
         // --- STORAGE (IndexedDB) ---
         const DB_NAME = 'MemoriaLaboresDB';
@@ -1445,12 +1452,12 @@
                 return Object.keys(dates).sort().map(k => ({ name: k, count: dates[k] }));
             }, [filteredActivities]);
 
-            const downloadPDF = () => {
+                      const downloadPDF = async () => {
                 try {
                     const { jsPDF } = window.jspdf;
                     const doc = new jsPDF();
 
-                    // Header
+                    // Header (sin cambios)
                     if (user.institutionLogo) {
                         doc.addImage(user.institutionLogo, 'JPEG', 15, 10, 20, 20);
                     }
@@ -1460,19 +1467,17 @@
                     doc.text("Reporte de Memoria de Labores", 40, 28);
                     doc.text(`Generado por: ${user.name}`, 40, 34);
                     doc.text(`Período: ${dateRange.start} al ${dateRange.end}`, 40, 40);
-
                     doc.line(15, 45, 195, 45);
 
-                    // Stats
+                    // Stats (sin cambios)
                     doc.text(`Total Actividades: ${stats.total}`, 15, 55);
                     doc.text(`Total Beneficiarios: ${stats.beneficiaries}`, 15, 61);
                     doc.text(`Total Inversión: Q${stats.cost.toFixed(2)}`, 15, 67);
 
-                    // Table
-                    const tableData = [];
-
-                    filteredActivities.forEach(a => {
-                        // Data Row
+                    // ←←← TABLA CON ALTURA AUTOMÁTICA
+                    let tableData = [];
+                    for (const a of filteredActivities) {
+                        // Fila de datos
                         tableData.push([
                             a.date,
                             a.title,
@@ -1481,39 +1486,57 @@
                             a.costType
                         ]);
 
-                        // Image Row (only if images exist)
+                        // Fila de imágenes (solo si hay)
                         const imgs = a.images && a.images.length > 0 ? a.images : (a.image ? [a.image] : []);
                         if (imgs.length > 0) {
+                            const imageData = imgs.slice(0, 3); // máximo 3 fotos por actividad
+                            const dimensions = await Promise.all(imageData.map(getImageDimensions));
+
+                            const IMAGE_WIDTH = 30;                    // ← ancho fijo en mm (puedes cambiarlo)
+                            const scaledHeights = dimensions.map(dim => (IMAGE_WIDTH / dim.width) * dim.height);
+                            const maxHeight = Math.max(...scaledHeights);
+                            const rowHeight = maxHeight + 6;           // padding de 6 mm
+
+                            const imageInfos = imageData.map((img, idx) => ({
+                                data: img,
+                                w: IMAGE_WIDTH,
+                                h: scaledHeights[idx]
+                            }));
+
                             tableData.push({
                                 content: '',
                                 colSpan: 5,
-                                styles: { minCellHeight: 25 }, // Space for images
-                                _images: imgs.slice(0, 3) // Store images for didDrawCell
+                                styles: { minCellHeight: rowHeight },
+                                _images: imageInfos
                             });
                         }
-                    });
+                    }
 
                     doc.autoTable({
                         startY: 75,
                         head: [['Fecha', 'Actividad', 'Personas', 'Costo', 'Tipo']],
                         body: tableData,
                         didDrawCell: (data) => {
-                            // Check if this is an image row
                             if (data.row.raw._images && data.column.index === 0 && data.cell.section === 'body') {
                                 const images = data.row.raw._images;
-                                const cellWidth = data.cell.width; // Actually it spans all, so we need full table width
-                                // But data.cell.width here is just the first column width because of how autotable works with hooks on merged cells sometimes.
-                                // Better: use data.cell.x and draw relative to it.
-
                                 let xOffset = data.cell.x + 2;
-                                images.forEach((img) => {
-                                    doc.addImage(img, 'JPEG', xOffset, data.cell.y + 2, 25, 20);
-                                    xOffset += 30; // 25 width + 5 gap
+
+                                images.forEach((imgInfo) => {
+                                    // Centrar verticalmente la imagen dentro de la fila
+                                    const yOffset = (data.cell.height - imgInfo.h) / 2;
+                                    doc.addImage(imgInfo.data, 'JPEG', xOffset, data.cell.y + yOffset, imgInfo.w, imgInfo.h);
+                                    xOffset += imgInfo.w + 5;
                                 });
                             }
                         }
                     });
 
+                    doc.save(`memoria_labores_${dateRange.start}_${dateRange.end}.pdf`);
+                } catch (e) {
+                    alert("Error al generar PDF. Asegúrate de que las imágenes no sean demasiado pesadas.");
+                    console.error(e);
+                }
+            };  
                     doc.save(`memoria_labores_${dateRange.start}_${dateRange.end}.pdf`);
                 } catch (e) {
                     alert("Error al generar PDF. Asegúrate de que las imágenes no sean demasiado pesadas.");
@@ -2000,5 +2023,6 @@
         root.render(<App />);
     </script>
 </body>
+
 
 </html>
