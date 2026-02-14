@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memoria de Labores Digital - Presentación</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            padding: 60px;
+            background: white;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Slide Styles */
+        .slide-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .slide-title h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .slide-title .subtitle {
+            font-size: 1.8rem;
+            text-align: center;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .slide-title .logo {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 30px;
+            margin: 40px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 40px;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .benefits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 25px 35px;
+            border-radius: 15px;
+            border-left: 6px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-right: 25px;
+            min-width: 60px;
+        }
+
+        .benefit-text h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .benefit-text p {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 60px;
+            font-size: 1.8rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .column h3 {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .column ul {
+            list-style: none;
+        }
+
+        .column li {
+            font-size: 1.2rem;
+            padding: 12px 0;
+            padding-left: 35px;
+            position: relative;
+            color: #333;
+        }
+
+        .column li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: 900;
+            font-size: 1.5rem;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        .tech-badge {
+            background: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #667eea;
+            border: 3px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+            box-shadow: 0 15px 40px rgba(253, 203, 110, 0.4);
+        }
+
+        .highlight-box h3 {
+            font-size: 2rem;
+            color: #2d3436;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box p {
+            font-size: 1.3rem;
+            color: #2d3436;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Portada -->
+        <div class="slide slide-title active">
+            <div class="logo">📊</div>
+            <h1>Memoria de Labores Digital</h1>
+            <p class="subtitle">Plataforma Integral para Gestión Municipal Inteligente</p>
+            <p class="subtitle" style="margin-top: 40px; font-size: 1.3rem;">🇬🇹 Diseñado para Guatemala</p>
+        </div>
+
+        <!-- Slide 2: Problema -->
+        <div class="slide">
+            <h2>🚨 El Desafío Municipal</h2>
+            <div class="content">
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📄</div>
+                        <div class="benefit-text">
+                            <h3>Documentación Fragmentada</h3>
+                            <p>Información dispersa en Excel, Word y papel dificulta la trazabilidad</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">⏰</div>
+                        <div class="benefit-text">
+                            <h3>Reportes Manuales Lentos</h3>
+                            <p>Generación de informes para CGC y auditorías consume semanas de trabajo</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">❌</div>
+                        <div class="benefit-text">
+                            <h3>Falta de Transparencia</h3>
+                            <p>Dificultad para cumplir con LAIP y rendición de cuentas ciudadana</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📱</div>
+                        <div class="benefit-text">
+                            <h3>Comunicación Ineficiente</h3>
+                            <p>Sin herramientas para informar logros a la ciudadanía efectivamente</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Solución -->
+        <div class="slide">
+            <h2>✨ La Solución: Todo en Una Plataforma</h2>
+            <div class="content">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">📋</div>
+                        <h3>Gestión POA</h3>
+                        <p>Registro completo de actividades con seguimiento de progreso físico y financiero</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Reportes Automáticos</h3>
+                        <p>Generación instantánea de informes de auditoría con gráficos y estadísticas</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Asesor Legal AI</h3>
+                        <p>Asistente inteligente experto en normativa guatemalteca y administración pública</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h3>Redes Sociales IA</h3>
+                        <p>Generación automática de contenido profesional para Facebook e Instagram</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📦</div>
+                        <h3>Inventario Digital</h3>
+                        <p>Control total de activos y recursos municipales en tiempo real</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏛️</div>
+                        <h3>Cumplimiento LAIP</h3>
+                        <p>Gestión de solicitudes de información pública y transparencia</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3>Gestión COCODES</h3>
+                        <p>Coordinación efectiva con consejos comunitarios de desarrollo</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🚗</div>
+                        <h3>Bitácora Vehicular</h3>
+                        <p>Seguimiento de uso y mantenimiento de vehículos municipales</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3>Biblioteca Digital</h3>
+                        <p>Repositorio centralizado de documentos, leyes y recursos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Características Destacadas -->
+        <div class="slide">
+            <h2>🌟 Características Destacadas</h2>
+            <div class="content two-column">
+                <div class="column">
+                    <h3>💡 Inteligencia Artificial</h3>
+                    <ul>
+                        <li>Asesor legal experto en normativa GT</li>
+                        <li>Generación de posts para redes sociales</li>
+                        <li>Análisis automático de cumplimiento</li>
+                        <li>Sugerencias de mejora continua</li>
+                    </ul>
+                    <h3 style="margin-top: 40px;">🔒 Seguridad y Respaldo</h3>
+                    <ul>
+                        <li>Almacenamiento local seguro (IndexedDB)</li>
+                        <li>Exportación/importación de datos</li>
+                        <li>Sincronización entre dispositivos</li>
+                        <li>Sin dependencia de internet</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>📈 Reportes y Análisis</h3>
+                    <ul>
+                        <li>Gráficos interactivos en tiempo real</li>
+                        <li>Cumplimiento por eje estratégico</li>
+                        <li>Estadísticas de beneficiarios</li>
+                        <li>Exportación a PDF y Excel</li>
+                    </ul>
+                    <h3 style="margin-top: 40px;">🎨 Diseño Moderno</h3>
+                    <ul>
+                        <li>Interfaz intuitiva y profesional</li>
+                        <li>Responsive (móvil, tablet, PC)</li>
+                        <li>Calendario interactivo visual</li>
+                        <li>Modo oscuro disponible</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Beneficios Clave -->
+        <div class="slide">
+            <h2>🎯 Beneficios Inmediatos</h2>
+            <div class="content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">80%</div>
+                        <div class="stat-label">Reducción en tiempo de reportes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Cumplimiento normativo CGC</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Acceso a información</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Capacidad de almacenamiento</div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <h3>💰 Retorno de Inversión</h3>
+                    <p>
+                        <strong>Ahorro promedio:</strong> 40+ horas mensuales de trabajo administrativo<br>
+                        <strong>Valor agregado:</strong> Transparencia, eficiencia y modernización institucional<br>
+                        <strong>Cumplimiento:</strong> 100% alineado con normativa guatemalteca y K'atun 2032
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Tecnología -->
+        <div class="slide">
+            <h2>⚙️ Tecnología de Vanguardia</h2>
+            <div class="content">
+                <div class="tech-stack">
+                    <div class="tech-badge">React.js</div>
+                    <div class="tech-badge">IndexedDB</div>
+                    <div class="tech-badge">Progressive Web App</div>
+                    <div class="tech-badge">AI Integration</div>
+                    <div class="tech-badge">Responsive Design</div>
+                    <div class="tech-badge">Offline-First</div>
+                    <div class="tech-badge">Chart.js</div>
+                    <div class="tech-badge">Lucide Icons</div>
+                </div>
+                <div class="benefits-list" style="margin-top: 60px;">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🌐</div>
+                        <div class="benefit-text">
+                            <h3>Sin Instalación</h3>
+                            <p>Funciona directamente en el navegador, compatible con Windows, Mac, Linux, Android e iOS
+                            </p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📴</div>
+                        <div class="benefit-text">
+                            <h3>Modo Offline</h3>
+                            <p>Trabaja sin conexión a internet, los datos se sincronizan cuando hay conectividad</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🔄</div>
+                        <div class="benefit-text">
+                            <h3>Actualizaciones Automáticas</h3>
+                            <p>Siempre tendrás la última versión con nuevas funcionalidades y mejoras</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Casos de Uso -->
+        <div class="slide">
+            <h2>📌 Casos de Uso Reales</h2>
+            <div class="content">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">👨‍💼</div>
+                        <h3>Alcalde Municipal</h3>
+                        <p>Vista ejecutiva de todos los proyectos, progreso y cumplimiento de metas institucionales</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Director DMP</h3>
+                        <p>Planificación y seguimiento del POA con reportes automáticos para CGC</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💰</div>
+                        <h3>Director AFIM</h3>
+                        <p>Control de ejecución presupuestaria y gestión de inventario de activos</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📢</div>
+                        <h3>Comunicación Social</h3>
+                        <p>Generación de contenido para redes sociales y gestión de noticias institucionales</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚖️</div>
+                        <h3>Asesoría Legal</h3>
+                        <p>Consultas rápidas sobre normativa y cumplimiento legal con IA especializada</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏛️</div>
+                        <h3>Acceso a Información</h3>
+                        <p>Gestión eficiente de solicitudes LAIP y transparencia ciudadana</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Comparación -->
+        <div class="slide">
+            <h2>⚡ Antes vs Después</h2>
+            <div class="content two-column">
+                <div class="column">
+                    <h3 style="color: #d63031;">❌ Método Tradicional</h3>
+                    <ul>
+                        <li style="color: #666;">Archivos Excel dispersos</li>
+                        <li style="color: #666;">Reportes manuales de 2-3 semanas</li>
+                        <li style="color: #666;">Información desactualizada</li>
+                        <li style="color: #666;">Dificultad para auditorías</li>
+                        <li style="color: #666;">Sin respaldo automático</li>
+                        <li style="color: #666;">Comunicación limitada</li>
+                        <li style="color: #666;">Errores humanos frecuentes</li>
+                        <li style="color: #666;">Acceso restringido</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3 style="color: #00b894;">✅ Con Memoria de Labores</h3>
+                    <ul>
+                        <li>Todo centralizado en una plataforma</li>
+                        <li>Reportes instantáneos automáticos</li>
+                        <li>Datos en tiempo real</li>
+                        <li>Auditorías simplificadas con IA</li>
+                        <li>Respaldo automático de datos</li>
+                        <li>Redes sociales con IA</li>
+                        <li>Validación automática de datos</li>
+                        <li>Acceso desde cualquier dispositivo</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight-box" style="margin-top: 50px;">
+                <h3>🚀 Resultado: Municipalidad del Siglo XXI</h3>
+                <p>Transformación digital completa con eficiencia, transparencia y modernización institucional</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Implementación -->
+        <div class="slide">
+            <h2>🛠️ Proceso de Implementación</h2>
+            <div class="content">
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">1️⃣</div>
+                        <div class="benefit-text">
+                            <h3>Instalación Inmediata</h3>
+                            <p>Abrir el archivo HTML en cualquier navegador - ¡Listo para usar en 1 minuto!</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">2️⃣</div>
+                        <div class="benefit-text">
+                            <h3>Configuración Inicial</h3>
+                            <p>Personalizar logo, nombre de institución y datos del usuario principal</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">3️⃣</div>
+                        <div class="benefit-text">
+                            <h3>Capacitación Express</h3>
+                            <p>Interfaz intuitiva requiere mínima capacitación - 2 horas para dominar todas las
+                                funciones</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">4️⃣</div>
+                        <div class="benefit-text">
+                            <h3>Migración de Datos</h3>
+                            <p>Importación opcional de datos existentes desde Excel o entrada manual progresiva</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">5️⃣</div>
+                        <div class="benefit-text">
+                            <h3>Soporte Continuo</h3>
+                            <p>Actualizaciones automáticas y asistencia técnica disponible</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Call to Action -->
+        <div class="slide slide-title">
+            <h2 style="color: white; font-size: 3.5rem;">🎯 ¡Moderniza tu Municipalidad HOY!</h2>
+            <div class="content" style="text-align: center;">
+                <div class="highlight-box" style="background: rgba(255,255,255,0.95); margin-top: 40px;">
+                    <h3 style="font-size: 2.5rem; color: #667eea;">Memoria de Labores Digital</h3>
+                    <p style="font-size: 1.5rem; margin-top: 20px;">
+                        ✅ Transparencia Total<br>
+                        ✅ Eficiencia Administrativa<br>
+                        ✅ Cumplimiento Normativo<br>
+                        ✅ Inteligencia Artificial
+                    </p>
+                </div>
+                <div class="cta-section">
+                    <button class="cta-button">📞 Solicitar Demo Gratuita</button>
+                    <p style="color: white; margin-top: 30px; font-size: 1.3rem; opacity: 0.9;">
+                        Transforma tu gestión municipal en minutos, no en meses
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">10</span>
+    </div>
+    <div class="nav-controls">
+        <button class="nav-btn" id="prev-btn">◀</button>
+        <button class="nav-btn" id="next-btn">▶</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                showSlide(currentSlide + 1);
+            } else if (e.key === 'ArrowLeft') {
+                showSlide(currentSlide - 1);
+            }
+        });
+
+        // Touch swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                showSlide(currentSlide + 1);
+            }
+            if (touchEndX > touchStartX + 50) {
+                showSlide(currentSlide - 1);
+            }
+        }
+    </script>
+</body>
+
+</html>
